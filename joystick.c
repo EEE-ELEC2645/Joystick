@@ -131,12 +131,10 @@ void Joystick_Read(Joystick_cfg_t* cfg, Joystick_t* data)
     // Calculate angle from mapped coordinates
     Polar p = Joystick_GetPolar(data);
     data->angle = p.angle;
-    
-    // Calculate direction from angle
-    data->direction = Joystick_GetDirection(data->angle);
-    
-    // Store magnitude from polar calculation
     data->magnitude = p.mag;
+    
+    // Calculate direction from angle and magnitude
+    data->direction = Joystick_GetDirection(data->angle, data->magnitude);
 }
 
 UserInput Joystick_GetInput(Joystick_t* data)
@@ -148,9 +146,10 @@ UserInput Joystick_GetInput(Joystick_t* data)
     return input;
 }
 
-Direction Joystick_GetDirection(float angle)
+Direction Joystick_GetDirection(float angle, float magnitude)
 {
-    if (angle == 0.0f || angle < 0.0f) {
+    // Only centre if angle is invalid AND magnitude is very small
+    if (angle < 0.0f || magnitude < 0.05f) {
         return CENTRE;
     }
     

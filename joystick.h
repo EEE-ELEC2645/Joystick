@@ -266,17 +266,18 @@ Vector2D Joystick_GetCoord(int16_t x, int16_t y, uint16_t center_x, uint16_t cen
 Vector2D Joystick_MapToCircle(Vector2D coord);
 
 /**
- * @brief Get 8-direction output from angle
+ * @brief Get 8-direction output from angle and magnitude
  * 
  * @param angle Raw angle in degrees (0-360°, or -1 for centered)
+ * @param magnitude Magnitude 0.0->1.0
  * @return Direction enum (N, NE, E, SE, S, SW, W, NW, or CENTRE)
  * 
  * @details Maps continuous angle to discrete 8-direction output.
  * Compass orientation: 0°=N, 45°=NE, 90°=E, 135°=SE, etc.
- * Special case: angle = -1 returns CENTRE (for centered joystick)
+ * Returns CENTRE if angle < 0 or magnitude < 0.05 (within deadzone)
  * 
  * Used internally by Joystick_Read() but available for custom angle inputs.
  */
-Direction Joystick_GetDirection(float angle);
+Direction Joystick_GetDirection(float angle, float magnitude);
 
 #endif /* JOYSTICK_H */
