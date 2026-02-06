@@ -1,4 +1,4 @@
-#include "joystick.h"
+#include "Joystick.h"
 #include <stdlib.h>
 #include <math.h>
 
@@ -302,3 +302,4 @@ Polar Joystick_GetPolar(Joystick_t* data)
     p.angle = angle;
     return p;
 }
+
